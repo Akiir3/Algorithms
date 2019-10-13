@@ -1,0 +1,280 @@
+\documentclass[12pt]{article} \setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in} \setlength{\textwidth}{6.5in}
+\setlength{\parindent}{0in} \setlength{\textwidth}{16cm}
+\setlength{\topmargin}{1in} \addtolength{\topmargin}{-1.5in}
+\setlength{\textheight}{23cm} \setlength{\parskip}{0.75cm}
+
+% Brackets
+\usepackage{mathtools} \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+% Tikz settings
+\usepackage{tikz} \usetikzlibrary{trees} \usetikzlibrary {positioning}
+\definecolor {mypurple}{cmyk}{0.6,0.4,0.1,0} \definecolor
+{myred}{cmyk}{0,0.3,0.3,0} \usetikzlibrary{fit,shapes.misc}
+
+% Typesetting options
+\usepackage{fancyvrb} \usepackage{amsmath,amsfonts,amssymb}
+\usepackage [english]{babel} \usepackage [autostyle, english =
+american]{csquotes} \usepackage[none]{hyphenat} \usepackage{url}
+
+\usepackage{listings}
+\usepackage{float}
+\usepackage{multicol}
+
+\begin{document}
+
+\noindent CSCI 3104 Spring 2018 \hfill Problem Set 9\\
+Erika BAILON (09/28)
+
+% Image
+\graphicspath{ {\string~/Desktop/images/} }
+
+\hrulefill
+
+{\fontfamily{cmr}\selectfont}
+
+% ******************* PROBLEM 1 *********************
+\section*{Problem 1}
+
+\textit{(10 pts) Let $G = (V, E)$ be a graph with an edge-weight function $w$, and let the tree
+$T \subseteq E$ be a minimum spanning tree on $G$. Now, suppose that we modify $G$ slightly by
+decreasing the weight of exactly one of the edges in $(x, y) \in T$ in order to produce a
+new graph $G'$. Here, you will prove that the original tree $T$ is still a minimum spanning
+tree for the modified graph $G'$.}
+
+\textit{To get started, let $k$ be a positive number and define the weight function $w'$ as}
+
+$$
+w'(u,v) =
+  \begin{cases}
+    w(u,v) & \text{if $(u,v) \ne (x,y)$} \\
+    w(u,v)-k & \text{if $(u,v) = (x,y)$}
+  \end{cases}
+  $$
+
+\textit{Now, prove that the tree $T$ is a minimum spanning tree for $G'$, whose edge weights are
+given by $w'$.}
+
+By definition, an MST is the subset of edges without cycles and with the minimum possible total edge weight. This means that $T$ is the graph with the weighted edges that unite all the vertices and the sum of all those weighted edges is minimum sum from the graph $G$. \textbf{So by definition} $\mathbf{w(G) > w(T)}$. Now, if we identify an edge $(x, y) \in T$ such that is the same edge $(u, v) \in G$, then we subtract the number $k$. This will mean  $w(G) > (w'(G') = w(G) - k)$ but since T is the tree with the minimum weights then $w(G) > (w'(G') = w(G) - k) \geq w(T)$ \\\\
+Proof by contradiction: \\
+\textbf{Let's assume that} $\mathbf{w(T) > w'(G')}$ . \\Then this will mean that $w(T) > w(G) - k)$, which is $w(T) + k  > w(G)$, which is a contradiction because by definition $w(T) < w(G)$. \textbf{Therefore,} $\mathbf{w(T) < w'(G')}$
+
+\newpage
+
+% ******************* PROBLEM 2 *********************
+\section*{Problem 2}
+
+\textit{(20 pts) Professor Snape gives you the following unweighted graph and asks you to
+construct a weight function $w$ on the edges, using positive integer weights only, such
+that the following conditions are true regarding minimum spanning trees and single-source shortest path trees:}
+\begin{itemize}
+\item The MST is distinct from any of the seven SSSP trees.
+\item The order in which Jarn?k/Prim?s algorithm adds the safe edges is different from the order in which Kruskal?s algorithm adds them.
+\item Bor?vka?s algorithm takes at least two rounds to construct the MST.
+\end{itemize}
+
+\textit{Justify your solution by (i) giving the edges weights, (ii) showing the corresponding
+MST and all the SSSP trees, and (iii) giving the order in which edges are added by
+each of the three algorithms. (For Borivkas algorithm, be sure to denote which edges
+are added simultaneously in a single round.)}
+
+\begin{figure}[h]
+  \centering \includegraphics[width=0.3\textwidth]{P2}
+\end{figure}
+ For part $i$ I am only giving the weights as requested. 
+
+\begin{figure}[h]
+  \centering \includegraphics[width=0.5\textwidth]{W}
+\end{figure}
+\newpage
+For part $ii$, here is my MST tree and all my SSSP. as you can see, the MST is different from all my SSSP. 
+\begin{figure}[h]
+  \centering \includegraphics[width=0.5\textwidth]{M}
+\end{figure}
+
+\begin{figure}[h]
+  \centering \includegraphics[width=0.4\textwidth]{SS}
+\end{figure}
+\newpage
+For part $iii$ this would be the order with each algorithm.\\\\
+\underline{\textbf{\textit{Jarnik/Prim's}}}\\
+$a- b$\\
+$b-e$\\
+$e-d$\\
+$d-f$\\
+$a-c$\\
+$c-g$
+\begin{figure}[h]
+  \centering \includegraphics[width=0.2\textwidth]{MS}
+\end{figure}
+
+\underline{\textbf{\textit{Kruskal's}}}\\
+$a- b$\\
+$e-d$\\
+$b-e$\\
+$d-f$\\
+$c-g$\\
+$a-c$
+\begin{figure}[h]
+  \centering \includegraphics[width=0.2\textwidth]{MS}
+\end{figure}
+
+\begin{multicols}{3}
+\underline{\textbf{\textit{Boruvka's (round 1)}}}\\
+$a- b$\\
+$d-e$\\
+$d-f$\\\columnbreak
+
+\underline{\textbf{\textit{Boruvka's (round 2)}}}\\
+$b-e$\\
+$c-g$\columnbreak
+
+\underline{\textbf{\textit{Boruvka's (round 3)}}}\\
+$a-c$\
+
+\end{multicols}
+\begin{figure}[h]
+  \centering \includegraphics[width=0.2\textwidth]{MS}
+\end{figure}
+
+
+\newpage
+
+% ******************* PROBLEM 3 *********************
+\section*{Problem 3}
+
+\textit{(10 pts extra credit) Crabbe and Goyle think they have come up with a way to get
+rich by playing the foreign exchange markets in the wizarding world. Their idea is
+to exploit these exchange rates in order to transform one unit of British wizarding
+money into more than one unit of British wizarding money. For instance, suppose
+1 wizarding penny bought 0.82 French wizarding pennies, 1 French wizarding penny
+bought 129.7 Russian wizarding pennies, 1 Russian wizarding penny, and one Russian
+wizarding penny bought 0.0008 British wizarding pennies. By converting these coins,
+Crabbe and Goyle think they could start with 1 British wizarding penny and buy
+$0.82 \times 129.7 \times 12 \times 0.0008 \approx 1.02$ British wizarding pennies, thereby making a $2\%$
+profit! The problem is that those gnomes at Gringots charge a transaction cost for
+each exchange...}
+
+\textit{Suppose that Crabbe and Goyle start with knowledge of $n$ wizard monies $c_1, c_2, \cdots, c_n$
+and an $n \times n$ table $R$ of exchange rates, such that one unit of wizard money $c_i$ buys
+$R[i, j]$ units of wizard money $c_j$. A traditional \textbf{arbitrage opportunity} is thus a cycle
+in the induced graph such that the product of the edge weights is greater than unity.
+That is, a sequence of currencies $\langle c_{i_{1}}, c_{i_{2}} , \cdots , c_{i_{k}} \rangle$ such that $R[i_1, i_2] \times R[i_2, i_3] \times \cdots \times R[i_{k?1}, i_k] \times R[i_k, i_i] > 1$. Each transaction, however, must pay Gringots a fraction $\alpha$ of the total transaction value, e.g., $\alpha = 0.01$ for a $1\%$ rate.}
+
+\begin{enumerate}
+\item[(a)]{\textit{When given $R$ and $\alpha$, give an efficient algorithm that can determine if an arbitrage opportunity exists. Analyze the running time of your algorithm.}
+
+    \textit{Hermione?s hint: It is possible to solve this problem in O(n 3 ). Recall that Bellman-Ford can be used to detect negative-weight cycles in a graph.}
+  }
+  \\\\
+  Since we are given R and $\alpha$, we can create an algorithms that will construct the arbitrage opportunity table such that at the time of doing the sequence of currencies it would look like this:\\
+  $R_{ij}\cdot(1-\alpha) > 1$ \\ ($1-\alpha$) being the fee we must pay to the Gringots. In order for us to be able to determine the arbitrage opportunity we would need negative weights so we can use $Bellman-Ford$ algorithm. To be able to have negative currencies we take $\log$ in both sides of the inequality:\\
+  $log(R_{ij}\cdot(1-\alpha)) >log (1) = log(R_{ij}) + log(1-\alpha) > 0$. \\Because we want them negative:\\
+  $- log(R_{ij}) - log(1-\alpha) < 0$. \\ This will allow us to use the algorithms and it's time complexity is $O(n^3)$ and we are using $n^2$ to construct the table and that times n to multiply by the currencies. \\
+  Bellman-Ford algorithm's time complexity of $\mathbf{O(n^3)}$.\\
+  
+  
+\item[(b)]{\textit{For an arbitrary $R$, explain how varying $\alpha$ changes the set of arbitrage opportunities that exist and that your algorithm might identify.}}
+  \\\\
+  If we vary $\alpha$ we will have a different fee to pay for each exchange we make, however, it would not 
+
+\end{enumerate}
+
+\newpage
+% ******************* PROBLEM 4 *********************
+\section*{Problem 4}
+
+\textit{(40 pts) Bidirectional breadth-first search is a variant of standard BFS for finding a
+shortest path between two vertices $s, t \in V(G)$. The idea is to run two breadth-first
+searches simultaneously, one starting from $s$ and one starting from $t$, and stop when
+they ?meet in the middle? (that is, whenever a vertex is encountered by both searches).
+``Simultaneously'' here does not assume you have multiple processors at your disposal;
+it?s enough to alternate iterations of the searches: one iteration of the loop for the BFS
+that started at $s$ and one iteration of the loop for the BFS that started at $t$.}
+
+\textit{As we?ll see, although the worst-case running time of BFS and Bidirectional BFS are
+asymptotically the same, in practice Bidirectional BFS often performs significantly
+better.}
+
+\textit{Throughout this problem, all graphs are unweighted, undirected, simple graphs.}
+\\\\
+
+\begin{enumerate}
+\item[(a)]{\textit{Given examples to show that, in the worst case, the asymptotic running time of
+bidirectional BFS is the same as that of ordinary BFS. Note that because we are
+asking for asymptotic running time, you actually need to provide an infinite family
+of examples $(G_n , s_n , t_n )$ such that $s_n, t_n \in V(G_n)$, the asymptotic running time of
+BFS and bidirectional BFS are the same on inputs $(G_n, s_n, t_n)$, and $|V(G_n)| \rightarrow \infty$ as $n \rightarrow \infty$}}
+  \\\\
+  The example that we can have to prove that the time complexity of a bidirectional BFS is the same as the BFS is an graph that is a line:\\
+  $1 \rightarrow 2 \rightarrow  3 \rightarrow  ... \rightarrow n$ \\ when $n$ is going to infinity. This way, when we run BFS starting from $n$ which is the last vertex, and at the same time BFS starting from the first vertex, we will get to the middle point which it can be written as: $2\cdot(n/2)$ which is $n$. The running time of BFS is $O(V+E)$ but if we are running 2 in the same tree that is linear, is the same as having $2\cdot \frac{V+E}{2}$ which is $O(V+E)$. 
+  \\
+\item[(b)]{\textit{Recall that in ordinary BFS we used a \texttt{state} array (see Lecture Notes 8) to keep track of which nodes had been visited before. In bidirectional BFS we will need two
+\texttt{state} arrays, one for the BFS from $s$ and one for the BFS from $t$. Why? Give an
+example to show what can go wrong if there?s only one state array. In particular,
+give a graph $G$ and two vertices $s, t$ such that some run of a bidirectional BFS
+says there is no path from $s$ to $t$ when in fact there is one.}}
+  \\\\
+  We need two arrays so we can put in one array the visited vertex from the BFS starting from $s$ and in the other array the visited vertex starting from $t$. In the algorithms we will check each array to stop when we find a vertex that has been visited from the two different BFS, which is, to see if the vertex is marked as visited in the two different arrays, if it is, then we add the edge and we end the search. If we never find a vertex that is visited by the two arrays, then we did not find a path from $s$ to $t$. We will need this implementation because if we don't check both arrays and just get out of the search when we reach a visited vertex, WE WOULD NEVER find a path because the edge that joins them is from both visited vertex. 
+  \begin{figure}[h]
+  \centering \includegraphics[width=0.5\textwidth]{bb}
+\end{figure}
+  \\
+  \item[(c)]{\textit{Implement from scratch a function \texttt{BFS(G,s,t)} that performs an ordinary BFS in the (unweighted, directed) graph G to find a shortest path from s to t. Assume
+the graph is given as an adjacency list; for the list of neighbors of each vertex,
+you may use any data structure you like (including those provided in standard
+language libraries). Have your function return a pair $(d, k)$, where $d$ is the distance
+from $s$ to $t$ ($-1$ if there is no $s$ to $t$ path), and $k$ is the number of nodes popped
+off the queue during the entire run of the algorithm.}}
+  \\\\
+  I don't know
+  \\
+\item[(d)]{\textit{Implement from scratch a function \texttt{BidirectionalBFS(G,s,t)} that takes in an (unweighted, directed) graph $G$, and two of its vertices $s,t$, and performs a bidirectional BFS. As with the previous function, this function should return a pair
+$(d, k)$ where $d$ is the distance from $s$ to $t$ ($-1$ if there is no path from $s$ to $t$) and $k$ is the number of vertices popped off of both queues during the entire run of the
+algorithm.}}
+  \\\\
+  I don't know
+  \\
+\item[(e)]{\textit{For each of the following families of graphs $G_n$ , write code to execute BFS and BidirectionalBFS on these graphs, and produce the following output:}
+    \begin{itemize}
+    \item \textit{In text, the tuples $(n, d_1, k_1, d_2, k_2)$ where $n$ is the index of the graph, $(d_1, k_1)$ is the output of \texttt{BFS} and $(d_2, k_2)$ is the output of \texttt{BidirectionalBFS}.}
+    \item \textit{a plot with $n$ on the x-axis, $k$ on the y-axis, and with two line charts, one for the values of $k_1$ and one for the values of $k_2$:}
+    \end{itemize}
+    \begin{enumerate}
+    \item[i.] \textit{Grids. $G_n$ is an $n \times n$ grid, where each vertex is connected to its neighbors in the four cardinal directions $(N,S,E,W)$. Vertices on the boundary of the grid
+will only have 3 neighbors, and corners will only have 2 neighbors. Let $s_n$
+be the midpoint of one edge of the grid, and $t_n$ the midpoint of the opposite
+edge. For example, for $n = 3$ we have:}
+
+\begin{figure}[h]
+  \centering \includegraphics[width=0.3\textwidth]{P41}
+\end{figure}
+
+\textit{Produce output for $n = 3, 4, 5, \cdots, 20$.}
+
+\item[ii.] \textit{Trees. $G_n$ is a complete binary tree of depth $n$. $s_n$ is the root and $t_n$ is any leaf. Produce output for $n = 3, 4, 5, \cdots, 15$. For example, for $n = 3$ we have:}
+
+  \begin{figure}[H]
+  \centering \includegraphics[width=1\textwidth]{P42}
+  \end{figure}
+
+\item[iii.] \textit{Random graphs. $G_n$ is a graph on $n$ vertices constructed as follows. For each
+pair of of vertices $(i, j)$, get a random boolean value; if it is true, include
+the edge $(i, j)$, otherwise do not. Let $s_n$ be vertex 1 and $t_n$ be vertex 2 (food
+for thought: why does it not matter, on average, which vertices we take $s, t$
+to be?) For each $n$, produce 50 such random graphs and report just the
+average values of $(d_1, k_ 1, d_2, k_2 )$ over those 50 trials. Produce this output for $n = 3, 4, 5, \cdots, 20$.}
+    \end{enumerate}
+  }
+
+  I don't know 
+
+\end{enumerate}
+
+
+WORKED with Eric Oropeza, Jarrod, and office hours
+
+
+% ---------------------------------------------------
+\end{document}
